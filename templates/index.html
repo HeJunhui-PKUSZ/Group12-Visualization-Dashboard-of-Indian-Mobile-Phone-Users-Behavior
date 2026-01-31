@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Data Visualization Dashboard for Large Screens</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/app.css') }}" />
+    <style>
+
+
+/* ===== 现代化确认弹窗样式 ===== */
+#modernConfirmOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 2500;
+}
+
+#modernConfirmOverlay.show {
+    display: block;
+}
+
+#modernConfirmModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 420px;
+    background: linear-gradient(135deg, rgba(0, 20, 40, 0.9), rgba(0, 40, 60, 0.9));
+    border-radius: 15px;
+    padding: 30px;
+    color: #cceaff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(90, 200, 250, 0.3),
+                0 0 40px rgba(90, 200, 250, 0.2);
+    border: 1px solid rgba(90, 200, 250, 0.3);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#modernConfirmModal.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modern-confirm-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+     justify-content: center; /* 添加这行，让内容居中 */
+}
+
+.modern-confirm-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(90, 200, 250, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    border: 2px solid rgba(90, 200, 250, 0.4);
+}
+
+.modern-confirm-icon span {
+    color: #5ac8fa;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.modern-confirm-header h3 {
+    color: #5ac8fa;
+    font-size: 18px;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(90, 200, 250, 0.3);
+}
+
+.modern-confirm-content {
+    text-align: center;
+    margin-bottom: 30px;
+
+}
+
+.modern-confirm-content p {
+    color: #5ac8fa;
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.modern-confirm-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.modern-confirm-btn {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.modern-confirm-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
+.confirm-yes {
+    background: linear-gradient(135deg, #5ac8fa, #0077cc);
+    color: white;
+    border: 1px solid rgba(90, 200, 250, 0.5);
+}
+
+.confirm-yes:hover {
+    background: linear-gradient(135deg, #4ab8ea, #0066bb);
+    box-shadow: 0 0 15px rgba(90, 200, 250, 0.4);
+}
+
+.confirm-no {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.confirm-no:hover {
+    background: rgba(255, 107, 107, 0.3);
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);
+}
+
+.confirm-edit {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.confirm-edit:hover {
+    background: rgba(255, 193, 7, 0.3);
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.2);
+}
+
+/* 弹窗动画 */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8) rotateX(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#modernConfirmModal.show {
+    animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+#modernConfirmOverlay.show {
+    animation: fadeIn 0.3s ease forwards;
+}
+        /* ===== 用户信息弹窗关闭按钮 ===== */
+#userInfoModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    background: rgba(0,0,0,0.35);
+    border-radius: 10px;
+    padding: 20px;
+    color: #cceaff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    position: relative; /* 为关闭按钮定位做准备 */
+}
+
+#userInfoModal h3 {
+    text-align: center;
+    color: #5ac8fa;
+    margin-bottom: 14px;
+    padding-right: 20px; /* 为关闭按钮留出空间 */
+}
+
+/* 关闭按钮样式 */
+#userInfoCloseBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(90, 200, 250, 0.4);
+    border-radius: 50%;
+    color: #5ac8fa;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+#userInfoCloseBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ff9800;
+    border-color: #ff9800;
+    transform: scale(1.1);
+}
+
+
+
+        /* 弹窗遮罩层 */
+        #explainOverlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* 弹窗内容 */
+        #explainModal {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1001;
+            max-width: 1000px;
+            width: 80%;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #explainModal p {
+    color: #5ac8fa;
+}
+
+
+        /* 显示时状态 */
+        #explainOverlay.show {
+            display: block;
+            opacity: 1;
+        }
+        #explainModal.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #explainModal button {
+            margin-top: 15px;
+            padding: 6px 12px;
+            cursor: pointer;
+            border: none;
+            background: #007BFF;
+            color: white;
+            border-radius: 4px;
+        }
+
+        #explainModal button:hover {
+            background: #0056b3;
+        }
+        /* ===== 第四个弹窗样式 ===== */
+#explainOverlay4 {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#explainModal4 {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 1001;
+    max-width: 1000px;
+    width: 80%;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#explainModal4 button {
+            margin-top: 15px;
+            padding: 6px 12px;
+            cursor: pointer;
+            border: none;
+            background: #007BFF;
+            color: white;
+            border-radius: 4px;
+        }
+#explainOverlay4.show {
+    display: block;
+    opacity: 1;
+}
+
+#explainModal4.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#explainModal4 p {
+    color: #5ac8fa;
+}
+
+
+        /* ===== 第五个弹窗样式 ===== */
+#explainOverlay5 {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+#explainModal5::-webkit-scrollbar {
+    width: 6px;                 /* 滚动条宽度 */
+}
+
+#explainModal5::-webkit-scrollbar-track {
+    background: transparent;    /* ⭐ 白色背景就在这，改透明 */
+}
+
+#explainModal5::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.4); /* 滑块颜色 */
+    border-radius: 4px;
+}
+
+#explainModal5::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.6);
+}
+
+#explainModal5 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 80%;
+    max-width: 1000px;
+
+    /* ⭐⭐⭐ 关键三行 */
+    max-height: 85vh;        /* 弹窗最大高度 = 屏幕 85% */
+    overflow-y: auto;        /* 内容超出 → 内部滚动 */
+    padding: 20px 30px;
+
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 1001;
+
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#explainModal5 button {
+            margin-top: 15px;
+            padding: 6px 12px;
+            cursor: pointer;
+            border: none;
+            background: #007BFF;
+            color: white;
+            border-radius: 4px;
+        }
+#explainOverlay5.show {
+    display: block;
+    opacity: 1;
+}
+
+#explainModal5.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#explainModal5 p {
+    color: #5ac8fa;
+}
+
+
+/* ===== Toast弹窗样式 ===== */
+.toast {
+    position: fixed;
+    bottom: 50%;       /* 调整到留言板上方 */
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(0,0,0,0.8);
+    border: 1px solid rgba(90,200,250,0.8);
+    color: #5ac8fa;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.35s ease;
+    z-index: 3000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    max-width: 300px;
+    text-align: center;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+/* ===== 留言提交按钮 ===== */
+.message-box {
+    position: relative;
+    flex: 1;
+}
+.board-input {
+    width: 100%;
+    height: 100%;
+    resize: none;
+
+    padding: 10px 10px 46px 10px; /* ⭐ 底部留空间 */
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(90, 200, 250, 0.4);
+    border-radius: 6px;
+    color: #cceaff;
+    font-size: 14px;
+    outline: none;
+}
+
+.board-submit {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);   /* ⭐ 水平居中 */
+
+    padding: 4px 22px;
+    font-size: 13px;
+    font-weight: bold;
+
+    color: #000;
+    background: linear-gradient(135deg, #5ac8fa, #00e5ff);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.board-submit:hover {
+    background: linear-gradient(135deg, #00e5ff, #5ac8fa);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+}
+
+/* ===== 第二个框的样式 ===== */
+
+/* ===== 图表2：数据集 & 留言板 ===== */
+.dataset-board {
+    height: 100%;
+}
+
+.board-content {
+    display: flex;
+    height: 100%;
+    gap: 14px;
+}
+
+/* 左右两栏 */
+.board-left,
+.board-right {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 标题行 */
+.board-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #5ac8fa;
+    margin-bottom: 10px;
+
+    display: flex;
+    justify-content: center;   /* ⭐ 水平居中 */
+    align-items: center;
+    text-align: center;
+}
+
+
+.board-title .divider {
+    margin: 0 8px;
+    color: #999;
+}
+
+/* 可点击文字 */
+.board-link {
+    cursor: pointer;
+    color: lime;
+    transition: color 0.25s ease;
+    text-decoration: none;
+}
+
+.board-link:hover {
+    color: #ff9800;
+    text-decoration: underline;
+}
+
+/* 左侧文本框 */
+.board-text {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #cceaff;
+    background: rgba(0, 0, 0, 0.18);
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(90, 200, 250, 0.4);
+    overflow-y: auto;
+}
+/* 现代化确认弹窗关闭按钮 */
+#modernConfirmCloseBtn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(90, 200, 250, 0.4);
+    border-radius: 50%;
+    color: #5ac8fa;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+#modernConfirmCloseBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ff9800;
+    border-color: #ff9800;
+    transform: scale(1.1);
+}
+/* 右侧输入框 */
+.board-input {
+    flex: 1;
+    resize: none;
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(90, 200, 250, 0.4);
+    border-radius: 6px;
+    padding: 10px;
+    color: #cceaff;
+    font-size: 14px;
+    outline: none;
+}
+
+.board-input::placeholder {
+    color: #88bcd6;
+}
+
+.board-input:focus {
+    border-color: #5ac8fa;
+}
+
+
+
+ /* ===== 第六个弹窗样式 ===== */
+#explainOverlay6 {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#explainModal6 {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 1001;
+    max-width: 1000px;
+    width: 80%;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#explainModal6 button {
+            margin-top: 15px;
+            padding: 6px 12px;
+            cursor: pointer;
+            border: none;
+            background: #007BFF;
+            color: white;
+            border-radius: 4px;
+        }
+#explainOverlay6.show {
+    display: block;
+    opacity: 1;
+}
+
+#explainModal6.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#explainModal6 p {
+    color: #5ac8fa;
+}
+
+
+
+/* ===== 用户信息弹窗样式 ===== */
+
+
+        /* ===== 用户信息弹窗 ===== */
+#userInfoOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 1500;
+}
+
+#userInfoOverlay.show {
+    display: block;
+}
+
+#userInfoModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    background: rgba(0,0,0,0.35);
+    border-radius: 10px;
+    padding: 20px;
+    color: #cceaff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+#userInfoModal h3 {
+    text-align: center;
+    color: #5ac8fa;
+    margin-bottom: 14px;
+}
+
+#userInfoModal input,
+#userInfoModal select {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(90, 200, 250, 0.6);
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#userInfoModal input:focus,
+#userInfoModal select:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #5ac8fa;
+    box-shadow: 0 0 8px rgba(90, 200, 250, 0.4);
+}
+
+/* 为下拉框选项单独设置样式 */
+#userInfoModal select option {
+    background: rgba(0, 0, 0, 0.9);
+    color: #ffffff;
+    padding: 10px;
+}
+
+/* 设置placeholder的样式 */
+#userInfoModal input::placeholder {
+    color: rgba(204, 234, 255, 0.6);
+}
+
+/* 为下拉框添加自定义箭头 */
+#userInfoModal select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235ac8fa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* 悬停效果 */
+#userInfoModal input:hover,
+#userInfoModal select:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(90, 200, 250, 0.8);
+}
+
+/* 禁用状态（如果有的话） */
+#userInfoModal input:disabled,
+#userInfoModal select:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(90, 200, 250, 0.3);
+    color: rgba(204, 234, 255, 0.5);
+}
+
+/* 设置第一个选项的特殊样式 */
+#userInfoModal select option:first-child {
+    color: rgba(204, 234, 255, 0.6);
+    font-style: italic;
+}
+
+/* 已选择选项的样式 */
+#userInfoModal select option:checked {
+    background: rgba(90, 200, 250, 0.3);
+    color: #ffffff;
+}
+
+/* 平滑过渡效果 */
+#userInfoModal input,
+#userInfoModal select {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 获得焦点时的效果 */
+#userInfoModal input:focus,
+#userInfoModal select:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(90, 200, 250, 0.25);
+}
+#userInfoSubmit {
+    width: 100%;
+    padding: 8px;
+    background: linear-gradient(135deg, #5ac8fa, #00e5ff);
+    border: none;
+    border-radius: 20px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+           /* ===== 第二个弹窗样式 ===== */
+#explainOverlay1 {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#explainModal1 {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 1001;
+    max-width: 1000px;
+    width: 80%;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#explainOverlay1.show {
+    display: block;
+    opacity: 1;
+}
+
+#explainModal1 button {
+            margin-top: 15px;
+            padding: 6px 12px;
+            cursor: pointer;
+            border: none;
+            background: #007BFF;
+            color: white;
+            border-radius: 4px;
+        }
+#explainOverlay1.show {
+    display: block;
+    opacity: 1;
+}
+.map-link {
+    cursor: pointer;
+    color: lime !important;      /* 默认绿色 */
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.map-link:hover {
+    color: #ff9800 !important;   /* 悬浮橙色 */
+    text-decoration: underline;
+}
+#explainModal1 {
+    pointer-events: none;
+}
+#explainModal1.show {
+    pointer-events: auto;
+}
+
+#explainModal1.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+#explainOverlay4 {
+    display: none;
+}
+
+#explainOverlay4.show {
+    display: block;
+}
+
+#explainModal4 {
+    pointer-events: auto;
+}
+/* ===== 联系我们弹窗样式 ===== */
+#contactOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(3px);
+    z-index: 1500;
+}
+
+#contactOverlay.show {
+    display: block;
+    animation: fadeIn 0.3s ease forwards;
+}
+/* ===== 数据集原始按钮样式 ===== */
+.dataset-origin-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);   /* 水平居中 */
+
+    padding: 4px 22px;
+    font-size: 13px;
+    font-weight: bold;
+
+    color: #000;
+    background: linear-gradient(135deg, #5ac8fa, #00e5ff);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.dataset-origin-btn:hover {
+    background: linear-gradient(135deg, #00e5ff, #5ac8fa);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+}
+
+/* 修改左侧数据集容器为相对定位 */
+.board-left {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* 添加相对定位 */
+}
+#contactModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    background: linear-gradient(135deg, rgba(0, 20, 40, 0.9), rgba(0, 40, 60, 0.9));
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(90, 200, 250, 0.3),
+                0 0 30px rgba(90, 200, 250, 0.2);
+    border: 1px solid rgba(90, 200, 250, 0.3);
+    animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* 关闭按钮样式 */
+#contactCloseBtn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(90, 200, 250, 0.4);
+    border-radius: 50%;
+    color: #5ac8fa;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+#contactCloseBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ff9800;
+    border-color: #ff9800;
+    transform: scale(1.1);
+}
+
+/* 信息项样式 */
+.contact-item {
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(90, 200, 250, 0.2);
+}
+
+.contact-item:last-child {
+    border-bottom: none;
+}
+
+.contact-label {
+    color: #5ac8fa;
+    font-weight: bold;
+    display: inline-block;
+    min-width: 50px;
+}
+
+.contact-value {
+    color: #cceaff;
+    margin-left: 10px;
+}
+
+#explainModal1 p {
+    color: #5ac8fa;
+}
+
+    </style>
+</head>
+
+
+<body>
+<div id="toast" class="toast"></div>
+<!-- 用户信息弹窗 -->
+
+
+<!-- 联系我们弹窗 -->
+<!-- 联系我们弹窗（美化版） -->
+<div id="contactOverlay">
+    <div id="contactModal">
+        <button id="contactCloseBtn">×</button>
+
+        <div style="text-align: center; margin-bottom: 25px;">
+            <div style="color: #5ac8fa; font-size: 22px; font-weight: bold; margin-bottom: 8px;">Contact Us</div>
+            <div style="height: 2px; background: linear-gradient(90deg, transparent, #5ac8fa, transparent); margin: 0 auto; width: 80%;"></div>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+            <div class="contact-item">
+                <span class="contact-label">🏫</span>
+                <span class="contact-value">PKU Shenzhen</span>
+            </div>
+
+            <div class="contact-item">
+                <span class="contact-label">🎓</span>
+                <span class="contact-value">School of Environment and Energy</span>
+            </div>
+
+            <div class="contact-item">
+                <span class="contact-label">📞</span>
+                <span class="contact-value">15088888888</span>
+            </div>
+
+            <div class="contact-item">
+                <span class="contact-label">📧</span>
+                <span class="contact-value">hello@163.com</span>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(90,200,250,0.2);">
+            <div style="color: #88bcd6; font-size: 13px; line-height: 1.6;">
+                We welcome your inquiries.
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 用户信息弹窗 -->
+<!-- 用户信息弹窗 -->
+<div id="userInfoOverlay">
+    <div id="userInfoModal">
+        <!-- 关闭按钮 -->
+        <button id="userInfoCloseBtn">×</button>
+
+        <h3>Fill in Personal Information</h3>
+
+        <!-- 昵称 -->
+        <div style="margin-bottom: 15px;">
+            <div style="color: #5ac8fa; margin-bottom: 5px; font-size: 14px; font-weight: bold;">Nickname：</div>
+            <input type="text" id="userName" placeholder="Please enter a nickname.">
+        </div>
+
+        <!-- 性别 -->
+        <div style="margin-bottom: 15px;">
+            <div style="color: #5ac8fa; margin-bottom: 5px; font-size: 14px; font-weight: bold;">Gender：</div>
+            <select id="userGender">
+                <option value="">Please specify your gender.</option>
+                <option value="男">male</option>
+                <option value="女">Female</option>
+            </select>
+        </div>
+
+        <!-- 电话号码 -->
+        <div style="margin-bottom: 15px;">
+            <div style="color: #5ac8fa; margin-bottom: 5px; font-size: 14px; font-weight: bold;">Phone Number：<span style="color: #88bcd6; font-size: 12px; margin-left: 5px;">(Optional)</span></div>
+            <input type="tel" id="userPhone" placeholder="13800138000 or 010-12345678">
+        </div>
+
+        <!-- 邮箱 -->
+        <div style="margin-bottom: 20px;">
+            <div style="color: #5ac8fa; margin-bottom: 5px; font-size: 14px; font-weight: bold;">Email Address：<span style="color: #88bcd6; font-size: 12px; margin-left: 5px;">(Optional)</span></div>
+            <input type="email" id="userEmail" placeholder="user@example.com">
+        </div>
+
+        <!-- 提交按钮 -->
+        <button id="userInfoSubmit">submit</button>
+    </div>
+</div>
+<!-- 现代化确认弹窗 -->
+<!-- 现代化确认弹窗 -->
+<div id="modernConfirmOverlay">
+    <div id="modernConfirmModal">
+        <!-- 关闭按钮 -->
+        <button id="modernConfirmCloseBtn" class="confirm-close-btn">×</button>
+
+
+        <div class="modern-confirm-content">
+            <p>Would you like to share your details?</p>
+        </div>
+        <div class="modern-confirm-buttons">
+            <button id="modernConfirmYes" class="modern-confirm-btn confirm-yes">
+                <span>✅</span> Sure
+            </button>
+            <button id="modernConfirmNo" class="modern-confirm-btn confirm-no">
+                <span>❌</span> Submit Now
+            </button>
+            <button id="modernConfirmEdit" class="modern-confirm-btn confirm-edit">
+                <span>✏️</span> Continue
+            </button>
+        </div>
+    </div>
+</div>
+
+<header id="header">
+        <h3 class="header-title">Welcome to the Data Dashboard</h3>
+    </header>
+     <div id="imgViewer">
+    <img id="imgViewerImg">
+</div>
+
+<div id="imgViewer1">
+    <img id="imgViewerImg1">
+</div>
+
+<div id="imgViewer2">
+    <img id="imgViewerImg2">
+</div>
+
+<div id="imgViewer5">
+    <img id="imgViewerImg5">
+</div>
+<div id="imgViewer5_2">
+    <img id="imgViewerImg5_2">
+</div>
+<div id="imgViewer5_3">
+    <img id="imgViewerImg5_3">
+</div>
+<div id="imgViewer6">
+    <img id="imgViewerImg6">
+</div>
+
+    <div id="container">
+        <div id="flexCon">
+
+            <!-- 第一行：左中右三列 -->
+            <div class="flex-row">
+               <div class="flex-cell flex-cell-l">
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title" style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspMarket share of mobile phone brands
+                            <!-- 新增按钮 -->
+                            <button id="explainBtn" style="padding: 2px 6px; font-size: 16px; margin-left:auto;cursor: pointer;background: transparent;color:#5ac8fa;font-weight: bold;">More</button>
+                        </h3>
+
+                        <div class="chart-div">
+                            <img
+                              src="{{ url_for('static', filename='img/shoujifene.png') }}"
+                              style="width: 100%; height: 100%; object-fit: contain;"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+             <!-- 第二个框的设计-->
+
+             <!-- 第二个框的设计 -->
+<div class="flex-cell flex-cell-c">
+    <div class="chart-wrapper dataset-board">
+        <div class="board-content">
+            <!-- 左侧：数据集 -->
+            <div class="board-left">
+                <div class="board-title">
+                    <span> Introduction </span>
+                    <span class="divider">|</span>
+                    <a
+                        href="{{ url_for('static', filename='data/phone_india.csv') }}"
+                        download="phone_india.csv"
+                        class="board-link"
+                    >
+                        Download
+                    </a>
+                </div>
+
+                <div class="board-text" style="color:#5ac8fa;">
+                   &nbsp&nbsp&nbsp&nbspThe dataset is derived from the statistical analysis of mobile user behavior in India. It encompasses multiple dimensions, including user age, gender, city, brand, usage duration, data consumption, number of applications, spending amount, and primary usage purposes. This dataset can be utilized for user profiling, clustering analysis, and research on consumption behavior.
+
+                    <!-- 修改按钮部分 -->
+                    <div class="dataset-btn-box">
+                        <button
+                            class="dataset-origin-btn"
+                            onclick="window.open('https://www.kaggle.com/datasets/akashsharma0105/phone-usage-in-india','_blank')"
+                        >
+                            Go to source data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：留言板 -->
+            <div class="board-right">
+                <div class="board-title">
+                    <span>Message Board</span>
+                    <span class="divider">|</span>
+                    <span class="board-link" id="contactBtn">
+                        Contact Us
+                    </span>
+                </div>
+
+                <div class="message-box">
+                    <textarea
+                        class="board-input"
+                        placeholder="Please enter your message or suggestions..."
+                    ></textarea>
+                    <button class="board-submit" id="messageSubmit">
+                       submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                <!-- 第三个框的设计 -->
+
+
+                <div class="flex-cell flex-cell-r">
+    <div class="chart-wrapper">
+        <h3 class="chart-title" style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspMain Usage by Age Group
+                            <!-- 新增按钮 -->
+                            <button id="explainBtn4" style="padding: 2px 6px;margin-left:auto; font-size: 16px; cursor: pointer;background: transparent;color:#5ac8fa;font-weight: bold ;">More</button>
+                        </h3>
+        <div class="chart-div">
+            <img
+                src="{{ url_for('static', filename='img/rose_age_4_groups.png') }}"
+                style="width:100%; height:100%; object-fit:contain;"
+            >
+        </div>
+    </div>
+</div>
+
+            </div>
+
+            <!-- 第二行：左中右三列 -->
+            <div class="flex-row">
+                <div class="flex-cell flex-cell-l">
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title" style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                            <span
+                                    id="mapLink1"
+    style="color: lime; cursor: pointer; font-weight: bold; font-size:16px;"
+    onmouseover="this.style.color='#ff9800';"
+    onmouseout="this.style.color='lime';"
+    onclick="window.location.href='static/img/india_city_data_usage_map.html'">
+    Map
+    </span>
+                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCity-wise Per Capita Data Usage<!-- 新增按钮 -->
+
+                            <button id="explainBtn1" style="padding: 2px 6px; font-size: 16px; margin-left:auto;cursor: pointer;background: transparent;color:#5ac8fa;font-weight: bold;">More</button>
+                        </h3>
+
+                        <div class="chart-div">
+                            <img
+                              src="{{ url_for('static', filename='img/india_city_data_usage_map.png') }}"
+                              style="width: 100%; height: 100%; object-fit: contain;"
+                            >
+                        </div>
+                        <div class="chart-div"></div>
+                    </div>
+                </div>
+                <div class="flex-cell flex-cell-c">
+                    <div class="chart-wrapper">
+                         <h3 class="chart-title" style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspK-means Clustering
+                            <!-- 新增按钮 -->
+                            <button id="explainBtn5" style="padding: 2px 6px; font-size: 16px; margin-left:auto;cursor: pointer;background: transparent;color:#5ac8fa;font-weight: bold;">More</button>
+                        </h3>
+                        <div class="chart-div">
+                             <img
+                src="{{ url_for('static', filename='img/cluster_centers_bar.png') }}"
+                style="width: 100%; height: 100%; object-fit: contain;"
+                alt="K-means Clustering"
+            >
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-cell flex-cell-r">
+                    <div class="chart-wrapper">
+
+                 <h3 class="chart-title" style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                       &nbsp&nbsp&nbspHigh vs. Ordinary Users: Phone Use Word Clouds
+                            <!-- 新增按钮 -->
+                            <button id="explainBtn6" style="padding: 2px 6px; font-size: 16px; margin-left:auto;cursor: pointer;background: transparent;color:#5ac8fa;font-weight: bold;">More</button>
+                        </h3>
+
+                        <div class="chart-div">
+                            <img
+                              src="{{ url_for('static', filename='img/primary_use_wordcloud_high_vs_normal.png') }}"
+                              style="width: 100%; height: 100%; object-fit: contain;"
+                            >
+                        </div>
+
+                        <div class="chart-div"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 弹窗遮罩 -->
+    <div id="explainOverlay">
+
+    <!-- 弹窗内容 -->
+      <div id="explainModal">
+         <img
+    id="explainImg"
+    src="{{ url_for('static', filename='img/shoujifene.png') }}"
+    alt="chart preview"
+    style="
+        width: 100%;
+        max-height: 60vh;
+        object-fit: contain;
+        margin-bottom: 15px;
+        border-radius: 6px;
+    "
+>
+          <!-- 下载链接（加在这里） -->
+<div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+    <a
+        href="{{ url_for('static', filename='img/shoujifene.png') }}"
+        download="market_share_mobile_brands.png"
+        class="download-link"
+    >
+        Download
+    </a>
+</div>
+
+
+        <p>
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspBased on the visualization results, it is evident that the current competitive landscape is highly fragmented, with market shares of various mobile phone brands being very close. The top-ranked brand, Nokia (10.27%), holds a margin of only 0.57 percentage points over Oppo (9.7%), which ranks lower. There is no dominant brand with a significantly leading market share. This is closely related to the narrowing differences in hardware performance among brands and the accelerated pace of new product releases. Additionally, diverse consumer groups have varied demands for functional design and pricing.<br> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspChinese brands, including OnePlus, Xiaomi, Vivo, Realme, and Oppo, collectively account for 50.23% of the market share, exceeding half of the total, which demonstrates their outstanding performance in the Indian market. Apart from support from government initiatives such as the Belt and Road Initiative and industrial policies that aid market expansion, this success is also closely tied to the strong competitiveness of their products, high cost-effectiveness, robust supply chains and manufacturing advantages, as well as effective global marketing and brand promotion efforts.
+        </p>
+
+        <button id="closeExplain"> Close</button>
+      </div>
+        </div>
+
+    <script>
+
+        const explainBtn = document.getElementById('explainBtn');
+        const explainOverlay = document.getElementById('explainOverlay');
+        const explainModal = document.getElementById('explainModal');
+        const closeBtn = document.getElementById('closeExplain');
+
+      // 打开弹窗
+explainBtn.addEventListener('click', () => {
+    explainOverlay.classList.add('show');
+    explainModal.classList.add('show');
+});
+
+// 点击弹窗内容本身，不关闭
+explainModal.addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+
+// 点击关闭按钮
+closeBtn.addEventListener('click', () => {
+    explainOverlay.classList.remove('show');
+    explainModal.classList.remove('show');
+});
+
+// 点击遮罩层空白处关闭
+explainOverlay.addEventListener('click', () => {
+    explainOverlay.classList.remove('show');
+    explainModal.classList.remove('show');
+});
+
+    </script>
+
+
+<div id="explainOverlay4">
+
+    <!-- 弹窗内容 -->
+
+    <div id="explainModal4">
+         <img
+    id="explainImg1"
+    src="{{ url_for('static', filename='img/rose_age_4_groups.png') }}"
+    alt="chart preview"
+    style="
+        width: 100%;
+        max-height: 60vh;
+        object-fit: contain;
+        margin-bottom: 15px;
+        border-radius: 6px;
+    "
+>
+          <!-- 下载链接（加在这里） -->
+<div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+  <a
+    href="{{ url_for('static', filename='img/rose_age_4_groups.png') }}"
+    download="main_usage_by_age_group.png"
+    class="download-link">
+    Download
+</a>
+</div>
+        <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+Users aged 0-20 tend to prioritize entertainment, socializing, and gaming, with relatively low demand for education. The 21-30 age group begins to place greater emphasis on work while remaining active in entertainment and social activities, with educational needs gradually increasing. Individuals aged 31-40 place equal importance on work and education, while reducing the time spent on entertainment and socializing, reflecting a more mature lifestyle. For those aged 41 and above, educational needs rise significantly, while work and entertainment continue to hold considerable importance.<br> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspThis indicates that users across different age groups exhibit distinct needs and behavioral patterns. As age increases, the demand for work and education gradually strengthens, while the time devoted to entertainment and social media relatively decreases. </p>
+        <button id="closeExplain4">Close</button>
+    </div>
+    </div>
+
+
+    <script>
+        const explainBtn4 = document.getElementById('explainBtn4');
+        const explainOverlay4 = document.getElementById('explainOverlay4');
+        const explainModal4 = document.getElementById('explainModal4');
+        const closeBtn4 = document.getElementById('closeExplain4');
+
+       explainModal4.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+        explainBtn4.addEventListener('click', () => {
+            explainOverlay4.classList.add('show');
+            explainModal4.classList.add('show');
+        });
+
+        closeBtn4.addEventListener('click', () => {
+            explainOverlay4.classList.remove('show');
+            explainModal4.classList.remove('show');
+        });
+
+        // 点击遮罩也可以关闭
+        explainOverlay4.addEventListener('click', () => {
+            explainOverlay4.classList.remove('show');
+            explainModal4.classList.remove('show');
+        });
+    </script>
+
+
+
+<div id="explainOverlay5">
+
+    <!-- 弹窗内容 -->
+
+    <div id="explainModal5">
+         <img
+    id="explainImg5"
+    src="{{ url_for('static', filename='img/elbow_silhouette.png') }}"
+    alt="chart preview"
+    style="
+        width: 100%;
+        max-height: 60vh;
+        object-fit: contain;
+        margin-bottom: 15px;
+        border-radius: 6px;
+    "
+>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:15px;">
+    <a href="{{ url_for('static', filename='img/elbow_silhouette.png') }}"
+       download="elbow_silhouette.png"
+       class="download-link">Download</a>
+  </div>
+
+         <img
+    id="explainImg5_2"
+    src="{{ url_for('static', filename='img/cluster_scatter.png') }}"
+    alt="chart preview"
+    style="width:100%;max-height:60vh;object-fit:contain;margin-bottom:10px;border-radius:6px;"
+  >
+  <div style="display:flex;justify-content:flex-end;margin-bottom:15px;">
+    <a href="{{ url_for('static', filename='img/cluster_scatter.png') }}"
+       download="cluster_scatter.png"
+       class="download-link">Download</a>
+  </div>
+
+  <!-- 图片 3 -->
+  <img
+    id="explainImg5_3"
+    src="{{ url_for('static', filename='img/cluster_centers_bar.png') }}"
+    alt="chart preview"
+    style="width:100%;max-height:60vh;object-fit:contain;margin-bottom:15px;border-radius:6px;"
+  >
+  <div style="display:flex;justify-content:flex-end;margin-bottom:20px;">
+    <a href="{{ url_for('static', filename='img/cluster_centers_bar.png') }}"
+       download="cluster_centers_bar.png"
+       class="download-link">Download</a>
+  </div>
+
+          <!-- 下载链接（加在这里） -->
+
+
+        <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+To understand users' consumption habits, we selected two consumption-related features: the amount users spend monthly on e-commerce platforms and the amount users recharge or pay for mobile phone plans monthly for clustering. The effectiveness of clustering largely depends on the number of clusters, so it is necessary to determine an appropriate K value before performing K-Means clustering. After standardizing the data, we used the elbow method and silhouette coefficient to assist in selecting the optimal number of clusters. First, we presented the trend of clustering performance indicators as the number of clusters varied. From the graph, it can be observed that when K=4, the slope of the error reduction curve tends to flatten, and the silhouette coefficient reaches its peak, indicating a relatively optimal clustering effect. Therefore, the final number of clusters determined is 4. Based on the analysis of the two-dimensional scatter plot of the clustering results, the clusters show clear boundaries while the data points are relatively compact, which indicates a good clustering performance.<br> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp We output the cluster centers of user consumption behavior. According to the results, through K-Means clustering, users are divided into four distinct consumption groups, with significant differences in the center values of e-commerce spending and monthly recharge fees across the clusters. Users in Cluster 0 exhibit high levels of both e-commerce spending and monthly mobile plan expenses, representing a typical high-consumption group that pursues higher digital service quality. Users in Cluster 1 are characterized by high e-commerce spending but low monthly recharge fees, indicating that this group emphasizes online shopping while reasonably controlling plan expenses. Users in Cluster 2 have low spending in both e-commerce and mobile plans, showing limited demand for e-commerce and plan services, making them a low-consumption user group. Users in Cluster 3 have relatively low monthly e-commerce spending but high mobile plan expenses, indicating that they are not frequent online shoppers but rely heavily on mobile plans, representing a high-frequency social user group.</p>
+        <button id="closeExplain5">Close</button>
+    </div>
+    </div>
+
+<script>
+        const explainBtn5 = document.getElementById('explainBtn5');
+        const explainOverlay5 = document.getElementById('explainOverlay5');
+        const explainModal5 = document.getElementById('explainModal5');
+        const closeBtn5 = document.getElementById('closeExplain5');
+
+        explainModal5.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+        explainBtn5.addEventListener('click', () => {
+            explainOverlay5.classList.add('show');
+            explainModal5.classList.add('show');
+        });
+
+        closeBtn5.addEventListener('click', () => {
+            explainOverlay5.classList.remove('show');
+            explainModal5.classList.remove('show');
+        });
+
+        // 点击遮罩也可以关闭
+        explainOverlay5.addEventListener('click', () => {
+            explainOverlay5.classList.remove('show');
+            explainModal5.classList.remove('show');
+        });
+    </script>
+
+<div id="explainOverlay6">
+
+    <!-- 弹窗内容 -->
+
+    <div id="explainModal6">
+         <img
+    id="explainImg6"
+    src="{{ url_for('static', filename='img/primary_use_wordcloud_high_vs_normal.png') }}"
+    alt="chart preview"
+    style="
+        width: 100%;
+        max-height: 60vh;
+        object-fit: contain;
+        margin-bottom: 15px;
+        border-radius: 6px;
+    "
+>
+          <!-- 下载链接（加在这里） -->
+<div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+  <a
+    href="{{ url_for('static', filename='img/primary_use_wordcloud_high_vs_normal.png') }}"
+    download="main_usage_by_age_group.png"
+    class="download-link">
+    Download
+</a>
+</div>
+        <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+From the word cloud comparison, it is evident that there are significant differences in the primary uses of mobile phones between high-consumption and ordinary-consumption users. In the word cloud for high-consumption users, terms such as "Entertainment" and "Work" occupy more prominent positions, while "Gaming" and "Education" also carry notable weight. This indicates that such users not only invest more in high-frequency usage scenarios like entertainment and gaming but also rely on their phones for multifunctional purposes such as work and learning. Overall, their usage patterns demonstrate higher intensity and a more diversified range of functional demands.In contrast, the word cloud for ordinary-consumption users highlights terms like "Gaming" and "Entertainment", while the weight of "Social Media" and "Work" appears relatively scattered. This suggests that their mobile phone usage leans more toward daily entertainment and basic social needs, with a weaker correlation between consumption behavior and usage scenarios.<br> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Overall, the word cloud results indicate a certain correlation between users' consumption levels and the structure of their mobile phone usage purposes. High-consumption users tend to exhibit more frequent, comprehensive, and value-oriented usage patterns. </p>
+        <button id="closeExplain6">Close</button>
+    </div>
+    </div>
+
+
+ <script>
+        const explainBtn6 = document.getElementById('explainBtn6');
+        const explainOverlay6 = document.getElementById('explainOverlay6');
+        const explainModal6 = document.getElementById('explainModal6');
+        const closeBtn6 = document.getElementById('closeExplain6');
+
+        explainModal6.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+        explainBtn6.addEventListener('click', () => {
+            explainOverlay6.classList.add('show');
+            explainModal6.classList.add('show');
+        });
+
+        closeBtn6.addEventListener('click', () => {
+            explainOverlay6.classList.remove('show');
+            explainModal6.classList.remove('show');
+        });
+
+        // 点击遮罩也可以关闭
+        explainOverlay6.addEventListener('click', () => {
+            explainOverlay6.classList.remove('show');
+            explainModal6.classList.remove('show');
+        });
+    </script>
+
+
+
+<div id="explainOverlay1"></div>
+
+    <!-- 弹窗内容 -->
+    <div id="explainModal1">
+        <img
+    id="explainImg2"
+    src="{{ url_for('static', filename='img/india_city_data_usage_map.png') }}"
+    alt="chart preview"
+    style="
+        width: 100%;
+        max-height: 60vh;
+        object-fit: contain;
+        margin-bottom: 15px;
+        border-radius: 6px;
+    "
+>
+          <!-- 下载链接（加在这里） -->
+<!-- 下载链接（只改这里） -->
+<div style="
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -45px;
+    margin-bottom: 8px;
+    pointer-events: auto;
+">
+    <a
+        href="{{ url_for('static', filename='img/india_city_data_usage_map.png') }}"
+        download="main_usage_by_age_group1.png"
+        class="download-link">
+        Download
+    </a>
+</div>
+
+        <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIt can be observed that the per capita mobile data usage in major Indian cities generally falls within the range of 24.7–26.3 GB/month. Although the differences between cities are relatively small, certain regional characteristics are still evident. Cities such as Ahmedabad (26.3 GB) and Delhi (25.8 GB) show higher per capita data consumption, indicating stronger levels of informatization, higher penetration of digital services, and greater reliance on data-intensive applications like online video and social media. Jaipur and Lucknow (both 25.5 GB) follow closely, reflecting that second-tier cities are approaching first-tier levels in terms of mobile internet usage. In comparison, Chennai (24.7 GB) and Bangalore (25.0 GB) exhibit slightly lower data usage, which may be related to user habits, mobile plan pricing structures, or the substitution effect of office and home broadband.<br> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOverall, these results suggest that mobile data consumption across major Indian cities is relatively balanced, with high-data applications having gained widespread adoption across different regions </p>
+        <button id="closeExplain1">Close</button>
+    </div>
+
+    <script>
+        const explainBtn1 = document.getElementById('explainBtn1');
+        const explainOverlay1 = document.getElementById('explainOverlay1');
+        const explainModal1 = document.getElementById('explainModal1');
+        const closeBtn1 = document.getElementById('closeExplain1');
+
+        explainBtn1.addEventListener('click', () => {
+            explainOverlay1.classList.add('show');
+            explainModal1.classList.add('show');
+        });
+
+        closeBtn1.addEventListener('click', () => {
+            explainOverlay1.classList.remove('show');
+            explainModal1.classList.remove('show');
+        });
+
+        // 点击遮罩也可以关闭
+        explainOverlay1.addEventListener('click', () => {
+            explainOverlay1.classList.remove('show');
+            explainModal1.classList.remove('show');
+        });
+    </script>
+
+<style>
+.map-link {
+    cursor: pointer;
+    color: #5ac8fa !important;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+/* ===== Download 下载文字样式 ===== */
+.download-link {
+    color: lime;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.25s ease, transform 0.2s ease;
+}
+
+.download-link:hover {
+    color: #ff9800;
+    transform: translateY(-1px);
+    text-decoration: underline;
+}
+
+.map-link:hover {
+    color: #ff9800 !important;
+    text-decoration: underline;
+}
+</style>
+<style>
+
+
+/* ===== 全屏图片查看器6 ===== */
+#imgViewer6 {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#imgViewer6.show {
+    display: flex;
+}
+
+#imgViewerImg6 {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    transition: transform 0.15s ease;
+    cursor: zoom-in;
+}
+
+
+/* ===== 全屏图片查看器5 ===== */
+#imgViewer5 {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#imgViewer5.show {
+    display: flex;
+}
+
+#imgViewerImg5 {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    transition: transform 0.15s ease;
+    cursor: zoom-in;
+}
+/* ===== 全屏图片查看器5_2 ===== */
+#imgViewer5_2 {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#imgViewer5_2.show {
+    display: flex;
+}
+
+#imgViewerImg5_2 {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    transition: transform 0.15s ease;
+    cursor: zoom-in;
+}
+
+
+
+ /* ===== 全屏图片查看器2 ===== */
+#imgViewer2 {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#imgViewer2.show {
+    display: flex;
+}
+
+#imgViewerImg2 {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    transition: transform 0.15s ease;
+    cursor: zoom-in;
+}
+/* ===== 全屏图片查看器 ===== */
+
+
+#imgViewer1 {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#imgViewer1.show {
+    display: flex;
+}
+
+#imgViewerImg1 {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    transition: transform 0.15s ease;
+    cursor: zoom-in;
+}
+
+#imgViewer {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#imgViewer.show {
+    display: flex;
+}
+
+#imgViewerImg {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    transition: transform 0.15s ease;
+    cursor: zoom-in;
+}
+</style>
+<script>
+
+   /* ===== 第一个图片 ===== */
+const explainImg = document.getElementById('explainImg');
+const imgViewer = document.getElementById('imgViewer');
+const imgViewerImg = document.getElementById('imgViewerImg');
+
+let scale = 1;
+
+// 点击弹窗里的图片 → 全屏
+explainImg.addEventListener('click', (e) => {
+    e.stopPropagation(); // 不关闭弹窗
+    imgViewerImg.src = explainImg.src;
+    scale = 1;
+    imgViewerImg.style.transform = `scale(${scale})`;
+    imgViewer.classList.add('show');
+});
+
+// 滚轮缩放
+imgViewer.addEventListener('wheel', (e) => {
+    e.preventDefault();
+
+    if (e.deltaY < 0) {
+        scale += 0.1;
+    } else {
+        scale -= 0.1;
+    }
+
+    // 限制缩放范围
+    scale = Math.min(Math.max(scale, 0.5), 5);
+    imgViewerImg.style.transform = `scale(${scale})`;
+}, { passive: false });
+
+// 点击黑色背景关闭
+imgViewer.addEventListener('click', () => {
+    imgViewer.classList.remove('show');
+});
+
+// ESC 键关闭
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        imgViewer.classList.remove('show');
+    }
+});
+
+
+
+
+ /* ===== 第二个图片 ===== */
+
+const explainImg1 = document.getElementById('explainImg1');
+const imgViewer1 = document.getElementById('imgViewer1');
+const imgViewerImg1 = document.getElementById('imgViewerImg1');
+
+let scale1 = 1;
+
+// 点击弹窗里的图片 → 全屏
+explainImg1.addEventListener('click', (e) => {
+    e.stopPropagation();
+    imgViewerImg1.src = explainImg1.src;
+    scale1 = 1;
+    imgViewerImg1.style.transform = `scale(${scale1})`;
+    imgViewer1.classList.add('show');   // ✅ 正确
+});
+
+// 滚轮缩放
+imgViewer1.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    scale1 += e.deltaY < 0 ? 0.1 : -0.1;
+    scale1 = Math.min(Math.max(scale1, 0.5), 5);
+    imgViewerImg1.style.transform = `scale(${scale1})`;
+}, { passive: false });
+
+// 点击关闭
+imgViewer1.addEventListener('click', () => {
+    imgViewer1.classList.remove('show');
+});
+// ESC 键关闭
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        imgViewer1.classList.remove('show');
+    }
+});
+
+
+
+ /* ===== 第三个图片 ===== */
+
+const explainImg2 = document.getElementById('explainImg2');
+const imgViewer2 = document.getElementById('imgViewer2');
+const imgViewerImg2 = document.getElementById('imgViewerImg2');
+
+let scale2 = 1;
+
+// 点击弹窗里的图片 → 全屏
+explainImg2.addEventListener('click', (e) => {
+    e.stopPropagation();
+    imgViewerImg2.src = explainImg2.src;
+    scale2 = 1;
+    imgViewerImg2.style.transform = `scale(${scale2})`;
+    imgViewer2.classList.add('show');   // ✅ 正确
+});
+
+// 滚轮缩放
+imgViewer2.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    scale2 += e.deltaY < 0 ? 0.1 : -0.1;
+    scale2 = Math.min(Math.max(scale2, 0.5), 5);
+    imgViewerImg2.style.transform = `scale(${scale2})`;
+}, { passive: false });
+
+// 点击关闭
+imgViewer2.addEventListener('click', () => {
+    imgViewer2.classList.remove('show');
+});
+// ESC 键关闭
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        imgViewer2.classList.remove('show');
+    }
+});
+
+
+
+ /* ===== 第六个图片 ===== */
+
+const explainImg6 = document.getElementById('explainImg6');
+const imgViewer6 = document.getElementById('imgViewer6');
+const imgViewerImg6 = document.getElementById('imgViewerImg6');
+
+let scale6 = 1;
+
+// 点击弹窗里的图片 → 全屏
+explainImg6.addEventListener('click', (e) => {
+    e.stopPropagation();
+    imgViewerImg6.src = explainImg6.src;
+    scale6 = 1;
+    imgViewerImg6.style.transform = `scale(${scale6})`;
+    imgViewer6.classList.add('show');   // ✅ 正确
+});
+
+// 滚轮缩放
+imgViewer6.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    scale6 += e.deltaY < 0 ? 0.1 : -0.1;
+    scale6 = Math.min(Math.max(scale6, 0.5), 5);
+    imgViewerImg6.style.transform = `scale(${scale6})`;
+}, { passive: false });
+
+// 点击关闭
+imgViewer6.addEventListener('click', () => {
+    imgViewer6.classList.remove('show');
+});
+// ESC 键关闭
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        imgViewer6.classList.remove('show');
+    }
+});
+
+
+
+
+</script>
+
+
+
+ <!-- 联系我们弹窗 -->
+<script>
+// ===== 联系我们弹窗功能 =====
+const contactBtn = document.getElementById('contactBtn');
+const contactOverlay = document.getElementById('contactOverlay');
+const contactModal = document.getElementById('contactModal');
+const contactCloseBtn = document.getElementById('contactCloseBtn');
+
+// 打开联系我们弹窗
+contactBtn.addEventListener('click', () => {
+    contactOverlay.classList.add('show');
+});
+
+// 关闭按钮点击事件
+contactCloseBtn.addEventListener('click', () => {
+    contactOverlay.classList.remove('show');
+});
+
+// 防止点击弹窗内容时关闭
+contactModal.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+});
+</script>
+
+
+ <!-- 联系方式-->
+<script>
+// 修改留言提交按钮的点击事件
+// ===== 现代化确认弹窗功能 =====
+const modernConfirmOverlay = document.getElementById('modernConfirmOverlay');
+const modernConfirmModal = document.getElementById('modernConfirmModal');
+const modernConfirmYes = document.getElementById('modernConfirmYes');
+const modernConfirmNo = document.getElementById('modernConfirmNo');
+const modernConfirmEdit = document.getElementById('modernConfirmEdit');
+
+// 保存当前留言内容
+let currentMessage = '';
+let currentTextarea = null;
+
+// 修改留言提交按钮的点击事件
+document.getElementById('messageSubmit').addEventListener('click', () => {
+    const msg = document.querySelector('.board-input').value.trim();
+    currentTextarea = document.querySelector('.board-input');
+
+    if (!msg) {
+        showToast('Please enter your message first. 😊');
+        return;
+    }
+
+    // 保存当前留言
+    currentMessage = msg;
+
+    // 显示现代化确认弹窗
+    modernConfirmOverlay.classList.add('show');
+    modernConfirmModal.classList.add('show');
+});
+
+// 愿意提供个人信息
+modernConfirmYes.addEventListener('click', () => {
+    // 先关闭确认弹窗
+    modernConfirmOverlay.classList.remove('show');
+    modernConfirmModal.classList.remove('show');
+
+    // 延迟显示个人信息弹窗
+    setTimeout(() => {
+        userInfoOverlay.classList.add('show');
+        userInfoModal.classList.add('show');
+    }, 200);
+});
+
+// 不愿意提供个人信息
+modernConfirmNo.addEventListener('click', () => {
+    // 关闭确认弹窗
+    modernConfirmOverlay.classList.remove('show');
+    modernConfirmModal.classList.remove('show');
+
+    // 直接提交到 Flask（不带个人信息）
+    fetch('/submit_message', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: currentMessage,
+            nickname: '',
+            gender: '',
+            phone: '',
+            email: ''
+        })
+    })
+    .then(res => res.json())
+    .then(() => {
+        showToast('Message submitted successfully. Thank you for your feedback! 🙏');
+        if (currentTextarea) {
+            currentTextarea.value = '';
+        }
+        currentMessage = '';
+    })
+    .catch(() => {
+        showToast('Submission failed. Please try again later.');
+    });
+});
+
+// 继续编辑
+modernConfirmEdit.addEventListener('click', () => {
+    // 关闭确认弹窗
+    modernConfirmOverlay.classList.remove('show');
+    modernConfirmModal.classList.remove('show');
+
+    // 将焦点设置回输入框，并选中所有文本以便编辑
+    if (currentTextarea) {
+        currentTextarea.focus();
+        currentTextarea.select();
+    }
+});
+
+modernConfirmOverlay.addEventListener('click', (e) => {
+    // 不再允许点击遮罩关闭
+    // 只阻止事件冒泡，不做关闭操作
+    e.stopPropagation();
+});
+
+const modernConfirmCloseBtn = document.getElementById('modernConfirmCloseBtn');
+
+modernConfirmCloseBtn.addEventListener('click', () => {
+    modernConfirmOverlay.classList.remove('show');
+    modernConfirmModal.classList.remove('show');
+
+    // 清空当前留言内容（可选）
+
+});
+
+</script>
+
+ <!-- 个人信息提交 -->
+
+<script>
+// 防止点击弹窗内容时关闭弹窗
+
+// 提交成功后关闭弹窗
+// 提交成功后关闭弹窗
+// 验证电话号码格式
+function isValidPhone(phone) {
+    const phoneRegex = /^(1[3-9]\d{9}|0\d{2,3}-?\d{7,8}|\d{3,4}-\d{3,4}-\d{4}|\+\d{1,4}-?\d{5,15}|\d{5,6})$/;
+    return phoneRegex.test(phone);
+}
+
+// 验证邮箱格式
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// 用户信息提交
+document.getElementById('userInfoSubmit').addEventListener('click', () => {
+    const message = document.querySelector('.board-input').value.trim();
+    const name = document.getElementById('userName').value.trim();
+    const gender = document.getElementById('userGender').value;
+    const phone = document.getElementById('userPhone').value.trim();
+    const email = document.getElementById('userEmail').value.trim();
+
+    // 1. 验证必填项
+    if (!name || !gender) {
+        showToast('Please fill in at least your nickname and gender.');
+        return;
+    }
+
+    // 2. 验证电话格式（如果填写了）
+    if (phone && !isValidPhone(phone)) {
+        showToast('Please enter a valid phone number.');
+        return;
+    }
+
+    // 3. 验证邮箱格式（如果填写了）
+    if (email && !isValidEmail(email)) {
+        showToast('Please enter a valid email address.');
+        return;
+    }
+
+    // 4. 提交数据
+    fetch('/submit_message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, nickname: name, gender, phone, email })
+    })
+    .then(res => res.json())
+    .then(() => {
+        showToast('Submission successful.\nThank you for your message! 🙏');
+
+        // 关闭所有弹窗
+        userInfoOverlay.classList.remove('show');
+        userInfoModal.classList.remove('show');
+        modernConfirmOverlay.classList.remove('show');
+        modernConfirmModal.classList.remove('show');
+
+        // 清空输入框
+        document.querySelector('.board-input').value = '';
+        clearUserInfo();
+        currentMessage = '';
+    })
+    .catch(() => {
+        showToast('Submission failed. Please try again later.');
+    });
+});
+
+// 清空用户信息函数
+function clearUserInfo() {
+    document.getElementById('userName').value = '';
+    document.getElementById('userGender').value = '';
+    document.getElementById('userPhone').value = '';
+    document.getElementById('userEmail').value = '';
+}
+
+// 弹窗关闭后清空
+document.getElementById('userInfoOverlay').classList.remove('show');
+document.getElementById('userInfoModal').classList.remove('show');
+clearUserInfo();
+
+
+</script>
+
+<script>
+function showToast(text) {
+    const toast = document.getElementById('toast');
+    toast.innerText = text;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2800);
+}
+// ===== 用户信息弹窗关闭功能 =====
+const userInfoCloseBtn = document.getElementById('userInfoCloseBtn');
+const userInfoOverlay = document.getElementById('userInfoOverlay');
+const userInfoModal = document.getElementById('userInfoModal');
+
+// 关闭按钮点击事件
+userInfoCloseBtn.addEventListener('click', () => {
+    userInfoOverlay.classList.remove('show');
+    userInfoModal.classList.remove('show');
+    clearUserInfo(); // 清空输入框
+});
+
+// 防止点击弹窗内容时关闭弹窗
+userInfoModal.addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+
+
+
+</script>
+
+
+
+<body>
+  <!-- 你的弹窗 HTML 代码 -->
+
+  <!-- 放在这里，保证 DOM 已经加载 -->
+ <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const images = document.querySelectorAll('#explainModal5 img');
+
+  images.forEach(img => {
+    img.addEventListener('click', () => {
+      // 创建全屏遮罩
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100vw';
+      overlay.style.height = '100vh';
+      overlay.style.background = 'rgba(0,0,0,0.9)';
+      overlay.style.display = 'flex';
+      overlay.style.justifyContent = 'center';
+      overlay.style.alignItems = 'center';
+      overlay.style.zIndex = '9999';
+      overlay.style.cursor = 'zoom-out'; // 鼠标提示可点击缩小
+
+      // 创建全屏图片
+      const fullImg = document.createElement('img');
+      fullImg.src = img.src;
+      fullImg.style.maxWidth = '95%';
+      fullImg.style.maxHeight = '95%';
+      fullImg.style.borderRadius = '6px';
+      fullImg.style.objectFit = 'contain';
+      fullImg.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
+      fullImg.style.transition = 'transform 0.3s ease';
+
+      overlay.appendChild(fullImg);
+
+      // 点击遮罩或图片关闭
+      overlay.addEventListener('click', () => {
+        document.body.removeChild(overlay);
+      });
+
+      // 滚轮缩放功能
+      let scale = 1;
+      fullImg.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (e.deltaY < 0) scale += 0.1;
+        else scale = Math.max(0.1, scale - 0.1);
+        fullImg.style.transform = `scale(${scale})`;
+      });
+
+      document.body.appendChild(overlay);
+    });
+  });
+});
+</script>
+
+</body>
+
+</body>
+</html>
