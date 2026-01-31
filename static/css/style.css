@@ -1,0 +1,90 @@
+
+
+.xialacaidan p {
+    background-color: #f7f8fbc9;
+    line-height: 34px;
+    border-bottom: 1px solid #ccc;
+    color: rgb(108, 108, 108);
+}
+
+.xialacaidan p:hover {
+    color: #009EFF;
+}
+
+.tile {
+    position: relative;
+    width: 100px;
+    text-align: center;
+    height: 92px;
+    overflow: hidden;
+}
+.tile:hover{
+    height:unset ;
+    overflow: visible;
+
+}
+
+.tile a {
+    text-decoration: none;
+    color: #ffff;
+}
+
+#jiaofuubox {
+    width: 100%;
+    margin-top: -4px;
+    background-color: #F5F5F5;
+}
+
+#littlebox {
+    height: 92px;
+}
+
+#littlebox li:first-child {
+    height: 88px;
+}
+
+#littlebox li:first-child:hover {
+    border-bottom: 2px solid #fff;
+}
+
+#jiaofu {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    width: 1280px;
+    margin: 0 auto;
+    display: flex;
+}
+
+#jiaofu div {
+    width: 25%;
+    text-align: center;
+}
+
+#jiaofu div p {
+    font-size: 18px;
+}
+
+#jiaofu div span {
+    text-shadow: #d5ecf4 3px 4px 1px;
+    font-size: 36px;
+    font-weight: bold;
+    color: #05a7ff;
+}
+
+#little_title {
+    color: #333;
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 84px;
+    margin-bottom: 72px;
+    text-align: center;
+}
+
+#little_title img {
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+

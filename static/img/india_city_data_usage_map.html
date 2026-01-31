@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_d9dedfcca393f89626ef598484dfe8e3 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_d9dedfcca393f89626ef598484dfe8e3" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_d9dedfcca393f89626ef598484dfe8e3 = L.map(
+                "map_d9dedfcca393f89626ef598484dfe8e3",
+                {
+                    center: [22.0, 79.0],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 5,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_e560f696960da823f8c2a27c2b99f300 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_e560f696960da823f8c2a27c2b99f300.addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+            var circle_b775419b9bd3dcf974426bd04136ffc8 = L.circle(
+                [19.076, 72.8777],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 29198.039213188284, "stroke": true, "weight": 3}
+            ).addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+        var popup_6270465789c993c3fbd0b6a558027ee7 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bf220fe22a1eabe115d97ac0c1409452 = $(`<div id="html_bf220fe22a1eabe115d97ac0c1409452" style="width: 100.0%; height: 100.0%;">Mumbai<br>Average Data Usage: 25.3 GB/month</div>`)[0];
+                popup_6270465789c993c3fbd0b6a558027ee7.setContent(html_bf220fe22a1eabe115d97ac0c1409452);
+            
+        
+
+        circle_b775419b9bd3dcf974426bd04136ffc8.bindPopup(popup_6270465789c993c3fbd0b6a558027ee7)
+        ;
+
+        
+    
+    
+            var circle_39e7abe13126758d7a30f69a3a60ef76 = L.circle(
+                [28.7041, 77.1025],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 29580.59471588663, "stroke": true, "weight": 3}
+            ).addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+        var popup_9590a4f262fee6f491809e4fe886a50b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3ae5264f6366f1ca8315727cd5bf4427 = $(`<div id="html_3ae5264f6366f1ca8315727cd5bf4427" style="width: 100.0%; height: 100.0%;">Delhi<br>Average Data Usage: 25.8 GB/month</div>`)[0];
+                popup_9590a4f262fee6f491809e4fe886a50b.setContent(html_3ae5264f6366f1ca8315727cd5bf4427);
+            
+        
+
+        circle_39e7abe13126758d7a30f69a3a60ef76.bindPopup(popup_9590a4f262fee6f491809e4fe886a50b)
+        ;
+
+        
+    
+    
+            var circle_0ba116a3cba4f625752af8535158fa1d = L.circle(
+                [23.0225, 72.5714],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 30000.0, "stroke": true, "weight": 3}
+            ).addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+        var popup_3e281b97e9b84e0a397fba11e7253eab = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e1cad440c4409fb192c387173806df72 = $(`<div id="html_e1cad440c4409fb192c387173806df72" style="width: 100.0%; height: 100.0%;">Ahmedabad<br>Average Data Usage: 26.3 GB/month</div>`)[0];
+                popup_3e281b97e9b84e0a397fba11e7253eab.setContent(html_e1cad440c4409fb192c387173806df72);
+            
+        
+
+        circle_0ba116a3cba4f625752af8535158fa1d.bindPopup(popup_3e281b97e9b84e0a397fba11e7253eab)
+        ;
+
+        
+    
+    
+            var circle_da0c3d1178cbd5635cc836862d037e9e = L.circle(
+                [18.5204, 73.8567],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 29207.334489619054, "stroke": true, "weight": 3}
+            ).addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+        var popup_ebcdf72261f73369cb2ca3d997cbb845 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_05a912b9450a717459afeb1c12d0287c = $(`<div id="html_05a912b9450a717459afeb1c12d0287c" style="width: 100.0%; height: 100.0%;">Pune<br>Average Data Usage: 25.4 GB/month</div>`)[0];
+                popup_ebcdf72261f73369cb2ca3d997cbb845.setContent(html_05a912b9450a717459afeb1c12d0287c);
+            
+        
+
+        circle_da0c3d1178cbd5635cc836862d037e9e.bindPopup(popup_ebcdf72261f73369cb2ca3d997cbb845)
+        ;
+
+        
+    
+    
+            var circle_044677dd8aeee9dd142124f8a03863f9 = L.circle(
+                [26.9124, 75.7873],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 29369.399616912076, "stroke": true, "weight": 3}
+            ).addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+        var popup_a1b3495bb98263e0fa5692694422ddd8 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b28baad86f9f73a622fced0f89da5607 = $(`<div id="html_b28baad86f9f73a622fced0f89da5607" style="width: 100.0%; height: 100.0%;">Jaipur<br>Average Data Usage: 25.5 GB/month</div>`)[0];
+                popup_a1b3495bb98263e0fa5692694422ddd8.setContent(html_b28baad86f9f73a622fced0f89da5607);
+            
+        
+
+        circle_044677dd8aeee9dd142124f8a03863f9.bindPopup(popup_a1b3495bb98263e0fa5692694422ddd8)
+        ;
+
+        
+    
+    
+            var circle_5612080ca20ed28c8211653961925978 = L.circle(
+                [26.8467, 80.9462],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 29363.69714871699, "stroke": true, "weight": 3}
+            ).addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+        var popup_2075407e80141ee70f2fcaeecf403173 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_60a53f9c9379a7b20f07d25f11a59f01 = $(`<div id="html_60a53f9c9379a7b20f07d25f11a59f01" style="width: 100.0%; height: 100.0%;">Lucknow<br>Average Data Usage: 25.5 GB/month</div>`)[0];
+                popup_2075407e80141ee70f2fcaeecf403173.setContent(html_60a53f9c9379a7b20f07d25f11a59f01);
+            
+        
+
+        circle_5612080ca20ed28c8211653961925978.bindPopup(popup_2075407e80141ee70f2fcaeecf403173)
+        ;
+
+        
+    
+    
+            var circle_90e47ac44591e7046e077ded22828053 = L.circle(
+                [22.5726, 88.3639],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 29081.957375943763, "stroke": true, "weight": 3}
+            ).addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+        var popup_064222d20465bddb6ba795d28263949c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_21530d823a2c5b40e153fe7f15300f38 = $(`<div id="html_21530d823a2c5b40e153fe7f15300f38" style="width: 100.0%; height: 100.0%;">Kolkata<br>Average Data Usage: 25.2 GB/month</div>`)[0];
+                popup_064222d20465bddb6ba795d28263949c.setContent(html_21530d823a2c5b40e153fe7f15300f38);
+            
+        
+
+        circle_90e47ac44591e7046e077ded22828053.bindPopup(popup_064222d20465bddb6ba795d28263949c)
+        ;
+
+        
+    
+    
+            var circle_f7c252c7a9d466b91c0a9f44cfb3e91e = L.circle(
+                [12.9716, 77.5946],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 28894.46284528402, "stroke": true, "weight": 3}
+            ).addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+        var popup_49cfca1d06dcf79dfbf5bf888ac6fab1 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_90be406ae1706179bb2ab1d23528624d = $(`<div id="html_90be406ae1706179bb2ab1d23528624d" style="width: 100.0%; height: 100.0%;">Bangalore<br>Average Data Usage: 25.0 GB/month</div>`)[0];
+                popup_49cfca1d06dcf79dfbf5bf888ac6fab1.setContent(html_90be406ae1706179bb2ab1d23528624d);
+            
+        
+
+        circle_f7c252c7a9d466b91c0a9f44cfb3e91e.bindPopup(popup_49cfca1d06dcf79dfbf5bf888ac6fab1)
+        ;
+
+        
+    
+    
+            var circle_fe421fcdd2750898f9de28616eb53d76 = L.circle(
+                [13.0827, 80.2707],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 28655.935433204944, "stroke": true, "weight": 3}
+            ).addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+        var popup_abc583837d2afc132ec466c51f132a30 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_08c84c2f4ef8b1a679de66edb9b502a3 = $(`<div id="html_08c84c2f4ef8b1a679de66edb9b502a3" style="width: 100.0%; height: 100.0%;">Chennai<br>Average Data Usage: 24.7 GB/month</div>`)[0];
+                popup_abc583837d2afc132ec466c51f132a30.setContent(html_08c84c2f4ef8b1a679de66edb9b502a3);
+            
+        
+
+        circle_fe421fcdd2750898f9de28616eb53d76.bindPopup(popup_abc583837d2afc132ec466c51f132a30)
+        ;
+
+        
+    
+    
+            var circle_02c10a5f981e49ba4ec3c5335f224ce7 = L.circle(
+                [17.385, 78.4867],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 29236.418350204247, "stroke": true, "weight": 3}
+            ).addTo(map_d9dedfcca393f89626ef598484dfe8e3);
+        
+    
+        var popup_7f7a62a6029f0eeac9f4fba836afc633 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_2597db31f2b9d3643439dafdcc98d655 = $(`<div id="html_2597db31f2b9d3643439dafdcc98d655" style="width: 100.0%; height: 100.0%;">Hyderabad<br>Average Data Usage: 25.4 GB/month</div>`)[0];
+                popup_7f7a62a6029f0eeac9f4fba836afc633.setContent(html_2597db31f2b9d3643439dafdcc98d655);
+            
+        
+
+        circle_02c10a5f981e49ba4ec3c5335f224ce7.bindPopup(popup_7f7a62a6029f0eeac9f4fba836afc633)
+        ;
+
+        
+    
+</script>
+</html>
