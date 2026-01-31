@@ -137,39 +137,55 @@ python src/app.py
 ### 2.Basic Operations基本操作
 
 ```
-1.The dashboard mainly consists of seven parts: pie chart, dataset introduction, rose chart, message board,
-heatmap, k-means clustering, and word cloud. Among them, for the pie chart, rose chart, heatmap, and word
-cloud, clicking "More" allows you to enlarge and view the images as well as their result explanations;
-clicking the image enables full-screen viewing, and you can zoom in or out using the mouse wheel; clicking
- "Download" lets you save the images to your local device; clicking "Close" returns you to the dashboard.
-Examples are as follows:
-1.大屏主要包含包括饼图、数据集介绍、玫瑰图、留言板、热力图、 k-means 聚类、词云七个部分，其中饼图、玫瑰图、热力图、
-词云图点击 More 可放大查看图片以及结果说明，点击图片可全屏查看图片通过鼠标滑轮可缩放图片，点击 Download 可下载图片
-至本地，点击 Close 回到大屏，例如下所示：
+1.The dashboard mainly consists of seven parts: pie chart, dataset introduction, rose chart, message board,heatmap, k-means clustering, and word cloud.
+Among them, for the pie chart, rose chart, heatmap, and wordcloud, clicking "More" allows you to enlarge and view the images as well as their result
+explanations;clicking the image enables full-screen viewing, and you can zoom in or out using the mouse wheel; clicking "Download" lets you save the
+images to your local device; clicking "Close" returns you to the dashboard.Examples are as follows:
+1.大屏主要包含包括饼图、数据集介绍、玫瑰图、留言板、热力图、 k-means 聚类、词云七个部分，其中饼图、玫瑰图、热力图、词云图点击 More 可放大查看图片以及结果说明，
+点击图片可全屏查看图片通过鼠标滑轮可缩放图片，点击 Download 可下载图片至本地，点击 Close 回到大屏，例如下所示：
 ```
 <img width="974" height="574" alt="image" src="https://github.com/user-attachments/assets/2f40caa8-be87-424e-aebd-bbb099ae177f" />
 <img width="970" height="572" alt="image" src="https://github.com/user-attachments/assets/e2b77794-66ad-4749-8532-5321c692edcc" />
 
 ```
-2.Regarding the dataset introduction section, it includes a data description, a dataset download function, and a button to navigate to the original dataset introduction. When you hover your mouse over "Download", it changes color; clicking it allows you to download the original dataset. Clicking "Go to source data" will navigate to the URL of the original dataset in a new page, as shown below:
-2.对于数据集介绍部分，包含数据介绍部分，下载数据集，跳转到原始数据集介绍按钮，鼠标悬浮 Download 变色，点击可下载原始数据集，点击 Go to source data 可在新页面跳转到原始数据集的网址，如下所示：
+2.Regarding the dataset introduction section, it includes a data description, a dataset download function, and a button to navigate to the original
+dataset introduction. When you hover your mouse over "Download", it changes color; clicking it allows you to download the original dataset. Clicking
+"Go to source data" will navigate to the URL of the original dataset in a new page, as shown below:
+2.对于数据集介绍部分，包含数据介绍部分，下载数据集，跳转到原始数据集介绍按钮，鼠标悬浮 Download 变色，点击可下载原始数据集，点击 Go to source data 可在新页面跳
+转到原始数据集的网址，如下所示：
 ```
 <img width="930" height="516" alt="image" src="https://github.com/user-attachments/assets/6e6974d3-4064-4385-85a7-ab7aec32556a" />
 <img width="960" height="560" alt="image" src="https://github.com/user-attachments/assets/a76bf593-41e0-4976-99b5-5eb4e3a4ee50" />
 
 ```
-3.Regarding the message board section, it includes a message input box and a message submission button. When you hover your mouse over "Contact Us", its color changes; clicking it will bring up a pop-up displaying contact information. After entering your message and clicking "Submit", a pop-up will ask if you are willing to provide personal information. You can choose to agree, submit directly, or continue editing:
-If you agree: A pop-up will appear for you to fill in your personal information, including nickname, gender (selected via a drop-down box), email address, and contact phone number. Click "Submit" to send both your message and personal information.
+3.Regarding the message board section, it includes a message input box and a message submission button. When you hover your mouse over "Contact Us",
+its color changes; clicking it will bring up a pop-up displaying contact information. After entering your message and clicking "Submit", a pop-up will
+ask if you are willing to provide personal information. You can choose to agree, submit directly, or continue editing:
+
+If you agree: A pop-up will appear for you to fill in your personal information, including nickname, gender (selected via a drop-down box), email
+address, and contact phone number. Click "Submit" to send both your message and personal information.
 If you disagree: Your message will be submitted directly.
 If you choose "Continue Editing": You can keep modifying your message.
 Examples are as follows:
-3.对于留言板部分，包含留言输入框，留言提交按钮，鼠标悬浮 Contact Us 变色，点击弹窗显示联系方式，输入留言后点击submit 提交后弹窗询问是否愿意提供个人信息，用户可选择愿意，直接提交或者继续编辑，愿意则弹窗填写个人信息，包含昵称、下拉框选择性别、邮箱以及联系电话，点击 submit 提交留言以及个人信息，不愿意则直接提交留言，点击继续编辑可继续填写留言。如下所示：
+3.对于留言板部分，包含留言输入框，留言提交按钮，鼠标悬浮 Contact Us 变色，点击弹窗显示联系方式，输入留言后点击submit 提交后弹窗询问是否愿意提供个人信息，用户可选择
+愿意，直接提交或者继续编辑，愿意则弹窗填写个人信息，包含昵称、下拉框选择性别、邮箱以及联系电话，点击 submit 提交留言以及个人信息，不愿意则直接提交留言，点击继续编辑
+可继续填写留言。如下所示：
 ```
 <img width="1872" height="988" alt="image" src="https://github.com/user-attachments/assets/b9ea904c-3a42-4e22-9b10-0d7406e56e69" />
 
 ```
-4.Regarding the K-means clustering section, clicking "More" allows you to view the aggregation curves generated by using two methods—the elbow method and silhouette coefficient—to assist in selecting the optimal number of clusters for this clustering analysis. When K=4, the slope of the error reduction curve tends to flatten, and the silhouette coefficient reaches its peak, indicating that the clustering effect is relatively optimal at this point. Therefore, the final number of clusters determined is 4. Scrolling the mouse wheel reveals the second graph, which is a two-dimensional scatter plot of the clustering results. It can be seen that each clustering result has clear boundaries, and the data points are relatively compact, indicating good clustering performance. Continuing to scroll the mouse wheel, the third graph shows the cluster centers of each cluster. All images can be viewed in full screen by clicking on them, zoomed in or out using the mouse wheel. When you hover the mouse over "Download", its color changes; clicking it allows you to download the image, and clicking "Close" closes the enlarged view, as shown below:
-4.对于 K-means 聚类部分，点击 More，可查看本次聚类采用了肘部法与轮廓系数两种方法来辅助选择最优簇数所生成的聚合曲线图，当 K 为 4 时，误差下降曲线的斜率趋于平缓，且轮廓系数达到峰值，表明此时聚类效果较优 t。因此，最终确定的聚类簇数为4，滑动鼠标滑轮可看到第二个图为聚类结果的二维散点图，可以看出各聚类结果有明显的界限，同时数据之间也比较紧密，说明聚类效果较好，继续滑动鼠标滑轮，第三个图为各簇的聚类中心，所有图片均可通过点击全屏查看，通过鼠标滑轮可缩放，鼠标悬浮Download 均变色，点击可下载，点击 Close 关闭，如下所示：
+4.Regarding the K-means clustering section, clicking "More" allows you to view the aggregation curves generated by using two methods—the elbow method
+and silhouette coefficient—to assist in selecting the optimal number of clusters for this clustering analysis. When K=4, the slope of the error
+reduction curve tends to flatten, and the silhouette coefficient reaches its peak, indicating that the clustering effect is relatively optimal at this
+ point. Therefore, the final number of clusters determined is 4. Scrolling the mouse wheel reveals the second graph, which is a two-dimensional scatter
+ plot of the clustering results. It can be seen that each clustering result has clear boundaries, and the data points are relatively compact,
+indicating good clustering performance. Continuing to scroll the mouse wheel, the third graph shows the cluster centers of each cluster. All images can
+be viewed in full screen by clicking on them, zoomed in or out using the mouse wheel. When you hover the mouse over "Download", its color changes;
+clicking it allows you to download the image, and clicking "Close" closes the enlarged view, as shown below:
+4.对于 K-means 聚类部分，点击 More，可查看本次聚类采用了肘部法与轮廓系数两种方法来辅助选择最优簇数所生成的聚合曲线图，当 K 为 4 时，误差下降曲线的斜率趋于平缓，且
+轮廓系数达到峰值，表明此时聚类效果较优 t。因此，最终确定的聚类簇数为4，滑动鼠标滑轮可看到第二个图为聚类结果的二维散点图，可以看出各聚类结果有明显的界限，同时数据之间
+也比较紧密，说明聚类效果较好，继续滑动鼠标滑轮，第三个图为各簇的聚类中心，所有图片均可通过点击全屏查看，通过鼠标滑轮可缩放，鼠标悬浮Download 均变色，点击可下载，点
+击 Close 关闭，如下所示：
 ```
 <img width="1872" height="988" alt="image" src="https://github.com/user-attachments/assets/bb925c49-db1b-4732-b62f-33c7af2b6794" />
 
