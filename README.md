@@ -152,7 +152,7 @@ Examples are as follows:
 
 ### 3. 网站可视化
 这里插入视频了链接
-https://github.com/user-attachments/assets/ff6436c1-9556-4cfd-8433-1a60afc66ec6
+
 
 
 
