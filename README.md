@@ -136,16 +136,9 @@ python src/app.py
 
 ### 2.Basic Operations基本操作
 
-```
-1.The dashboard mainly consists of seven parts: pie chart, dataset introduction, rose chart, message board, heatmap, k-means clustering, and word cloud. Among them, for the pie chart, rose chart, heatmap, and word cloud, clicking "More" allows you to enlarge and view the images as well as their result explanations; clicking the image enables full-screen viewing, and you can zoom in or out using the mouse wheel; clicking "Download" lets you save the images to your local device; clicking "Close" returns you to the dashboard. Examples are as follows:
-
-
-
-1.大屏主要包含包括饼图、数据集介绍、玫瑰图、留言板、热力图、 k-means 聚类、词云七个部分，其中饼图、玫瑰图、热力图、词云图点击 More 可放大查看图片以及结果说明，点击图片可全屏查看图片通过鼠标滑轮可缩放图片，点击 Download 可下载图片至本地，点击 Close 回到大屏，例如下所示：
-
-
-
-```
+####2.1
+2.1The dashboard mainly consists of seven parts: pie chart, dataset introduction, rose chart, message board, heatmap, k-means clustering, and word cloud. Among them, for the pie chart, rose chart, heatmap, and word cloud, clicking "More" allows you to enlarge and view the images as well as their result explanations; clicking the image enables full-screen viewing, and you can zoom in or out using the mouse wheel; clicking "Download" lets you save the images to your local device; clicking "Close" returns you to the dashboard. Examples are as follows:
+2.1大屏主要包含包括饼图、数据集介绍、玫瑰图、留言板、热力图、 k-means 聚类、词云七个部分，其中饼图、玫瑰图、热力图、词云图点击 More 可放大查看图片以及结果说明，点击图片可全屏查看图片通过鼠标滑轮可缩放图片，点击 Download 可下载图片至本地，点击 Close 回到大屏，例如下所示：
 <img width="974" height="574" alt="image" src="https://github.com/user-attachments/assets/2f40caa8-be87-424e-aebd-bbb099ae177f" />
 <img width="970" height="572" alt="image" src="https://github.com/user-attachments/assets/e2b77794-66ad-4749-8532-5321c692edcc" />
 
