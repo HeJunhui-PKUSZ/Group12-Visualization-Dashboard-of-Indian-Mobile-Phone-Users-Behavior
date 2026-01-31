@@ -70,7 +70,7 @@ keshihuapingtai/
 │   ├── index.html/                      # 首页html
 │
 ├── README.md/                                    # readme文件
-
+├── messages.csv/                       # 用户留言信息提交的csv文件
 ```
 
 ## 🔧 Environment Configuration环境配置
@@ -100,7 +100,6 @@ streamlit>=1.20.0
 - `KMeans` 
 - `os` 
 - `csv` 
-- `KMeans` 
 - `silhouette_score` 
 - `StandardScaler` 
 ```
