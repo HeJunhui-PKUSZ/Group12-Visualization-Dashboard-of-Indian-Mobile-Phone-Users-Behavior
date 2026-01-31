@@ -190,7 +190,8 @@ clicking it allows you to download the image, and clicking "Close" closes the en
 <img width="1872" height="988" alt="image" src="https://github.com/user-attachments/assets/bb925c49-db1b-4732-b62f-33c7af2b6794" />
 
 ### 3. 网站可视化
-
+由于视频一直上传不成功，只能曲线救国，上传到B站啦（本菜鸡哭死了｡°(°¯᷄◠¯᷅°)°｡）
+https://www.bilibili.com/video/BV1z86nB9Ecp/?vd_source=af822d2c78cac3821ddca46347ac9832
 
 ## 💡 Future Work未来工作
 - **选择更多字段进行数据分析 | Select more fields for data analysis**
