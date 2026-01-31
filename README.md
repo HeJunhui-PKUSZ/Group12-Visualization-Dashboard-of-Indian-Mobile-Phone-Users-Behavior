@@ -136,14 +136,15 @@ python src/app.py
 
 ### 2.Basic Operations基本操作
 
-####2.1
-2.1The dashboard mainly consists of seven parts: pie chart, dataset introduction, rose chart, message board, heatmap, k-means clustering, and word cloud. Among them, for the pie chart, rose chart, heatmap, and word cloud, clicking "More" allows you to enlarge and view the images as well as their result explanations; clicking the image enables full-screen viewing, and you can zoom in or out using the mouse wheel; clicking "Download" lets you save the images to your local device; clicking "Close" returns you to the dashboard. Examples are as follows:
-2.1大屏主要包含包括饼图、数据集介绍、玫瑰图、留言板、热力图、 k-means 聚类、词云七个部分，其中饼图、玫瑰图、热力图、词云图点击 More 可放大查看图片以及结果说明，点击图片可全屏查看图片通过鼠标滑轮可缩放图片，点击 Download 可下载图片至本地，点击 Close 回到大屏，例如下所示：
+```
+1.The dashboard mainly consists of seven parts: pie chart, dataset introduction, rose chart, message board, heatmap, k-means clustering, and word cloud. Among them, for the pie chart, rose chart, heatmap, and word cloud, clicking "More" allows you to enlarge and view the images as well as their result explanations; clicking the image enables full-screen viewing, and you can zoom in or out using the mouse wheel; clicking "Download" lets you save the images to your local device; clicking "Close" returns you to the dashboard. Examples are as follows:
+1.大屏主要包含包括饼图、数据集介绍、玫瑰图、留言板、热力图、 k-means 聚类、词云七个部分，其中饼图、玫瑰图、热力图、词云图点击 More 可放大查看图片以及结果说明，点击图片可全屏查看图片通过鼠标滑轮可缩放图片，点击 Download 可下载图片至本地，点击 Close 回到大屏，例如下所示：
+```
 <img width="974" height="574" alt="image" src="https://github.com/user-attachments/assets/2f40caa8-be87-424e-aebd-bbb099ae177f" />
 <img width="970" height="572" alt="image" src="https://github.com/user-attachments/assets/e2b77794-66ad-4749-8532-5321c692edcc" />
 
 ```
-Regarding the dataset introduction section, it includes a data description, a dataset download function, and a button to navigate to the original dataset introduction. When you hover your mouse over "Download", it changes color; clicking it allows you to download the original dataset. Clicking "Go to source data" will navigate to the URL of the original dataset in a new page, as shown below:
+2.Regarding the dataset introduction section, it includes a data description, a dataset download function, and a button to navigate to the original dataset introduction. When you hover your mouse over "Download", it changes color; clicking it allows you to download the original dataset. Clicking "Go to source data" will navigate to the URL of the original dataset in a new page, as shown below:
 2.对于数据集介绍部分，包含数据介绍部分，下载数据集，跳转到原始数据集介绍按钮，鼠标悬浮 Download 变色，点击可下载原始数据集，点击 Go to source data 可在新页面跳转到原始数据集的网址，如下所示：
 ```
 <img width="930" height="516" alt="image" src="https://github.com/user-attachments/assets/6e6974d3-4064-4385-85a7-ab7aec32556a" />
@@ -166,6 +167,7 @@ Examples are as follows:
 <img width="1872" height="988" alt="image" src="https://github.com/user-attachments/assets/bb925c49-db1b-4732-b62f-33c7af2b6794" />
 
 ### 3. 网站可视化
+
 
 ## 💡 Future Work未来工作
 - **选择更多字段进行数据分析 | Select more fields for data analysis**
